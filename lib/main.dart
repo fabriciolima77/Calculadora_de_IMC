@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 /**Neste projeto se usará stateful pois o conteudo da tela será modificado*/
 void main(){
   runApp(MaterialApp(
@@ -15,12 +16,17 @@ class _HomeState extends State<Home> {
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
 
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String _infoText = "Informe seus dados!";
 
   void _resetField(){
       weightController.text = "";
       heightController.text = "";
+      setState(() {
       _infoText ="Informe seus dados!";
+      _formKey = GlobalKey<FormState>();
+    });
   }
 /**setState muda os elementos na interface a partir de uma função*/
   void _calculate(){
@@ -59,61 +65,79 @@ class _HomeState extends State<Home> {
         onPressed: _resetField,),
        ],
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       /**SingleChildScrollView habilita a sobreposição do teclado com
        * os elementos presentes na tela
        * EdgeInsets.fromLTRB define as margens (ESQUERDA, TOPO, DIREITA, FUNDO)
        * para não definir uma altura é só colocar 0.0*/
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(10, 0.0, 10, 0.0),
-        child: Column(
-          /**crossAxis vai definir o eixo horizontal e o strech preenche pela horizontal
-           * A imagem não ocupa toda a largura pois foi definido um tamanho
-           * já o texto preenche*/
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Icon(Icons.person_outline, size: 120.0, color:
-            Colors.lightBlueAccent,),
-
-            TextField(keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: "Peso em (Kg)",
-                labelStyle: TextStyle(color: Colors.lightBlueAccent),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            /**crossAxis vai definir o eixo horizontal e o strech preenche pela horizontal
+             * A imagem não ocupa toda a largura pois foi definido um tamanho
+             * já o texto preenche*/
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Icon(Icons.person_outline, size: 120.0, color:
+              Colors.lightBlueAccent,),
+          /**TextFormField possui um parametro chamado validador:
+           * o parametro validator vai validar as informações do formulario*/
+              TextFormField(keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Peso em (Kg)",
+                  labelStyle: TextStyle(color: Colors.lightBlueAccent),
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0),
+                controller: weightController,
+                validator: (value){
+                  if(value.isEmpty){
+                    return "Insira seu peso: ";
+                  }
+                },
               ),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0),
-              controller: weightController,
-            ),
 
-            TextField(keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: "Altura (Cm)",
-                labelStyle: TextStyle(color: Colors.lightBlueAccent),
+              TextFormField(keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: "Altura (Cm)",
+                  labelStyle: TextStyle(color: Colors.lightBlueAccent),
+                ),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0),
+                controller: heightController,
+                validator: (value){
+                  if(value.isEmpty){
+                    return "Insira sua Altura: ";
+                  }
+                },
               ),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0),
-              controller: heightController,
-            ),
 
-            Padding(
-              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-              child: Container(
-                height: 50.0,
-                child: RaisedButton(
-                  onPressed: _calculate,
-                  child: Text("Calcular", style: TextStyle(color: Colors.black,
-                      fontSize: 25.0),),
-                  color: Colors.lightBlueAccent,
+              Padding(
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                child: Container(
+                  height: 50.0,
+                  child: RaisedButton(
+                    onPressed: (){
+                      if(_formKey.currentState.validate()){
+                        _calculate();
+                      }
+                    },
+                    child: Text("Calcular", style: TextStyle(color: Colors.black,
+                        fontSize: 25.0),),
+                    color: Colors.lightBlueAccent,
+                  ),
                 ),
               ),
-            ),
 
-            Text(_infoText,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0,),
-            ),
-          ],
-        ),
+              Text(_infoText,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.lightBlueAccent, fontSize: 25.0,),
+              ),
+            ],
+          ),
+        )
       ),
     );
   }
