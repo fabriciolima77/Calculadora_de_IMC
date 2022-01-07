@@ -19,7 +19,7 @@ Para a construção desse projeto, segui as orientações do curso da Udemy "Cri
 
 ### 📦 Pacotes
 
-- [armeabi_v7a](https://github.com/fabriciolima77/calculadora_imc/blob/master/APK/app-armeabi-v7a-release.apk)
+- [armeabi_v7a](https://github.com/fabriciolima77/Calculadora_de_IMC/blob/master/APK/app-armeabi-v7a-release.apk)
 
 ### 🛠 Tecnologias
 
