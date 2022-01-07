@@ -1,7 +1,7 @@
 # Calculadora de IMC
 
-Um sim aplicativo feito em flutter para calcular o IMC.
-Para a construção desse projeto segui as orientações do curso da Udemy "Criação de Apps Android/iOS/Web com Flutter - 4 cursos em 1"
+Meu primeiro aplicativo feito em flutter para calcular o IMC.
+Para a construção desse projeto, segui as orientações do curso da Udemy "Criação de Apps Android/iOS/Web com Flutter - 4 cursos em 1"
 
 
 ## 🖼️ Imagens
